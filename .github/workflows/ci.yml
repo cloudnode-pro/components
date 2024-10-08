@@ -37,7 +37,10 @@ jobs:
     if: github.event_name == 'release'
     runs-on: ubuntu-latest
     steps:
-      - run: npm version ${{ github.event.release.tag_name }} --git-tag-version=false
-      - run: npm publish --provenance --access public
+      - name: Set version from release tag
+        run: npm version ${{ github.event.release.tag_name }} --git-tag-version=false
+
+      - name: Publish to NPM
+        run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
