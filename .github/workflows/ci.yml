@@ -39,3 +39,5 @@ jobs:
     steps:
       - run: npm version ${{ github.event.release.tag_name }} --git-tag-version=false
       - run: npm publish --provenance --access public
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
