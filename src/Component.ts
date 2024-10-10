@@ -23,7 +23,6 @@ type ElementToTagName<T extends HTMLElement> = {
 export class Component<T extends HTMLElement = HTMLElement> extends ElementComponent<T> {
     /**
      * @param element Instance or tag name
-     * @protected
      */
     public constructor(element: T | ElementToTagName<T>) {
         if (typeof element === "string") {
