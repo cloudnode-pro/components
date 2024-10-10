@@ -14,12 +14,12 @@
  * You should have received a copy of the GNU Lesser General Public License along with @cldn/components.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import {ElementComponent} from "./index.js";
+import {BaseComponent} from "./index.js";
 
 /**
  * An SVG component (`<svg>`)
  */
-export class SvgComponent extends ElementComponent<SVGSVGElement> {
+export class SvgComponent extends BaseComponent<SVGSVGElement> {
     public constructor(element?: SVGSVGElement) {
         super(element ?? document.createElementNS("http://www.w3.org/2000/svg", "svg"));
     }

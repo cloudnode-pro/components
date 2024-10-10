@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License along with @cldn/components.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import {ElementComponent} from "./index.js";
+import {BaseComponent} from "./index.js";
 
 type ElementToTagName<T extends HTMLElement> = {
     [K in keyof HTMLElementTagNameMap]: HTMLElementTagNameMap[K] extends T ? K : never
@@ -26,7 +26,7 @@ type ElementToTagName<T extends HTMLElement> = {
  * To create your own component, it's recommended to extend this class.
  * @typeParam T Component element type
  */
-export class Component<T extends HTMLElement = HTMLElement> extends ElementComponent<T> {
+export class Component<T extends HTMLElement = HTMLElement> extends BaseComponent<T> {
     /**
      * Create Component instance
      * @param element Instance or tag name

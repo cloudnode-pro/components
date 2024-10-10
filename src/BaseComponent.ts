@@ -39,7 +39,7 @@ type WritableKeys<T> = Extract<
  * An {@link !Element} component
  * @typeParam T Component element type
  */
-export abstract class ElementComponent<T extends Element> {
+export abstract class BaseComponent<T extends Element> {
     public readonly element: T;
 
     protected constructor(element: T) {
@@ -49,7 +49,7 @@ export abstract class ElementComponent<T extends Element> {
     /**
      * Insert component after the last child
      */
-    public append(component: ElementComponent<any>) {
+    public append(component: BaseComponent<any>) {
         this.element.appendChild(component.element);
         return this;
     }
@@ -57,7 +57,7 @@ export abstract class ElementComponent<T extends Element> {
     /**
      * Insert component before the first child
      */
-    public prepend(component: ElementComponent<any>) {
+    public prepend(component: BaseComponent<any>) {
         this.element.prepend(component.element);
         return this;
     }
