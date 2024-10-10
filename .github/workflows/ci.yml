@@ -31,16 +31,40 @@ jobs:
 
       - name: Build
         run: npm run build
+
+      - name: Pack
+        run: npm pack
+
+      - name: Upload package artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: package
+          path: cldn-components-0.0.0-dev.tgz
   publish:
     name: Publish
     needs: build
     if: github.event_name == 'release'
     runs-on: ubuntu-latest
     steps:
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          registry-url: https://registry.npmjs.org/
+          cache: npm
+
+      - name: Install latest NPM
+        run: npm i -g npm@latest
+
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+
       - name: Set version from release tag
+        working-directory: ./package/package
         run: npm version ${{ github.event.release.tag_name }} --git-tag-version=false
 
       - name: Publish to NPM
+        working-directory: ./package/package
         run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
