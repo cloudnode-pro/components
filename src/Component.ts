@@ -20,6 +20,12 @@ type ElementToTagName<T extends HTMLElement> = {
     [K in keyof HTMLElementTagNameMap]: HTMLElementTagNameMap[K] extends T ? K : never
 }[keyof HTMLElementTagNameMap];
 
+/**
+ * An {@link !HTMLElement} component.
+ *
+ * To create your own component, it's recommended to extend this class.
+ * @typeParam T Component element type
+ */
 export class Component<T extends HTMLElement = HTMLElement> extends ElementComponent<T> {
     /**
      * Create Component instance
