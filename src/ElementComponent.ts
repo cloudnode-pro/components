@@ -36,7 +36,8 @@ type WritableKeys<T> = Extract<
 
 
 /**
- * An {@link Element} component
+ * An {@link !Element} component
+ * @typeParam T Component element type
  */
 export abstract class ElementComponent<T extends Element> {
     public readonly element: T;
