@@ -22,6 +22,7 @@ type ElementToTagName<T extends HTMLElement> = {
 
 export class Component<T extends HTMLElement = HTMLElement> extends ElementComponent<T> {
     /**
+     * Create Component instance
      * @param element Instance or tag name
      */
     public constructor(element: T | ElementToTagName<T>) {
