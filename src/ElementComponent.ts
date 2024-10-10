@@ -153,7 +153,7 @@ export abstract class ElementComponent<T extends Element> {
      * @param listener
      * @param options
      */
-    public on<K extends keyof ElementEventMap>(type: K, listener: (ev: ElementEventMap[K], component: this) => any, options?: boolean | AddEventListenerOptions): this {
+    public on<K extends keyof ElementEventMap>(type: K, listener: (ev: ElementEventMap[K], component: this) => any, options?: boolean | AddEventListenerOptions) {
         this.element.addEventListener(type, e => listener(e, this), options);
         return this;
     }

@@ -41,7 +41,7 @@ export class Component<T extends HTMLElement = HTMLElement> extends ElementCompo
         return new Component<T>(document.createRange().createContextualFragment(html).children[0] as T);
     }
 
-    public override on<K extends keyof HTMLElementEventMap>(type: K, listener: (ev: HTMLElementEventMap[K], component: this) => any, options?: boolean | AddEventListenerOptions): this {
+    public override on<K extends keyof HTMLElementEventMap>(type: K, listener: (ev: HTMLElementEventMap[K], component: this) => any, options?: boolean | AddEventListenerOptions) {
         return super.on(type as any, listener, options);
     }
 }
