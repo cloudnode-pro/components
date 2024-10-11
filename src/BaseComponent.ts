@@ -40,8 +40,15 @@ type WritableKeys<T> = Extract<
  * @typeParam T Component element type
  */
 export abstract class BaseComponent<T extends Element> {
+    /**
+     * This component's element
+     */
     public readonly element: T;
 
+    /**
+     * @param element Initial element for this component
+     * @protected
+     */
     protected constructor(element: T) {
         this.element = element;
     }
