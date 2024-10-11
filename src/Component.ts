@@ -23,7 +23,7 @@ type ElementToTagName<T extends HTMLElement> = {
 /**
  * An {@link !HTMLElement} component.
  *
- * To create your own component, it's recommended to extend this class.
+ * To create your own HTML component, it's recommended to extend this class.
  * @typeParam T Component element type
  */
 export class Component<T extends HTMLElement = HTMLElement> extends BaseComponent<T> {
