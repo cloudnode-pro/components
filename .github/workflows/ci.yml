@@ -68,6 +68,10 @@ jobs:
         with:
           name: package
 
+      - name: Extract build package
+        working-directory: ./package
+        run: tar -xzf cldn-components-0.0.0-dev.tgz
+
       - name: Set version from release tag
         working-directory: ./package/package
         run: npm version ${{ github.event.release.tag_name }} --git-tag-version=false
