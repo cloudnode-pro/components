@@ -14,16 +14,22 @@
  * You should have received a copy of the GNU Lesser General Public License along with @cldn/components.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import {ElementComponent} from "./index.js";
+import {BaseComponent} from "./index.js";
 
 type ElementToTagName<T extends HTMLElement> = {
     [K in keyof HTMLElementTagNameMap]: HTMLElementTagNameMap[K] extends T ? K : never
 }[keyof HTMLElementTagNameMap];
 
-export class Component<T extends HTMLElement = HTMLElement> extends ElementComponent<T> {
+/**
+ * An {@link !HTMLElement} component.
+ *
+ * To create your own HTML component, it's recommended to extend this class.
+ * @typeParam T Component element type
+ */
+export class Component<T extends HTMLElement = HTMLElement> extends BaseComponent<T> {
     /**
+     * Create Component instance
      * @param element Instance or tag name
-     * @protected
      */
     public constructor(element: T | ElementToTagName<T>) {
         if (typeof element === "string") {
@@ -42,7 +48,7 @@ export class Component<T extends HTMLElement = HTMLElement> extends ElementCompo
         return new Component<T>(document.createRange().createContextualFragment(html).children[0] as T);
     }
 
-    public override on<K extends keyof HTMLElementEventMap>(type: K, listener: (ev: HTMLElementEventMap[K], component: this) => any, options?: boolean | AddEventListenerOptions): this {
+    public override on<K extends keyof HTMLElementEventMap>(type: K, listener: (ev: HTMLElementEventMap[K], component: this) => any, options?: boolean | AddEventListenerOptions) {
         return super.on(type as any, listener, options);
     }
 }
