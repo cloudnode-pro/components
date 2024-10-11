@@ -130,6 +130,22 @@ export abstract class ElementComponent<T extends Element> {
     }
 
     /**
+     * Set text content
+     */
+    public text(text: string) {
+        this.element.textContent = text;
+        return this;
+    }
+
+    /**
+     * Set inner HTML
+     */
+    public html(html: string) {
+        this.element.innerHTML = html;
+        return this;
+    }
+
+    /**
      * Set element property
      * @param name property name
      * @param value property value
