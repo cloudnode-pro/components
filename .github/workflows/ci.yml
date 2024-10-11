@@ -80,7 +80,7 @@ jobs:
 
       - name: Publish to NPM
         working-directory: ./package/package
-        run: npm publish --provenance --access public &
+        run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
@@ -98,6 +98,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-      - name: Await NPM publish completion
-        run: wait
