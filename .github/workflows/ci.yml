@@ -63,7 +63,7 @@ jobs:
       - name: Install latest NPM
         run: npm i -g npm@latest
 
-      - name: Download artifacts
+      - name: Download build artifact
         uses: actions/download-artifact@v4
 
       - name: Set version from release tag
