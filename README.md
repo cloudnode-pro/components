@@ -1,2 +1,8 @@
 # components
-Base classes for web components
+Base classes for creating web components.
+
+## Installation
+
+```shell
+npm i @cldn/components
+```
