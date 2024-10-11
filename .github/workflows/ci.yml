@@ -67,6 +67,7 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: package
+          path: ./package
 
       - name: Extract build package
         working-directory: ./package
