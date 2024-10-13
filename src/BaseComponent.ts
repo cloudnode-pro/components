@@ -56,18 +56,16 @@ export abstract class BaseComponent<T extends Element> {
     /**
      * Insert component after the last child
      */
-    public append(component?: BaseComponent<any> | null) {
-        if (!component) return this;
-        this.element.appendChild(component.element);
+    public append(...components: BaseComponent<any>[]) {
+        components.map((component) => this.element.appendChild(component.element))
         return this;
     }
 
     /**
      * Insert component before the first child
      */
-    public prepend(component?: BaseComponent<any> | null) {
-        if (!component) return this;
-        this.element.prepend(component.element);
+    public prepend(...components: BaseComponent<any>[]) {
+        components.map((component) => this.element.appendChild(component.element))
         return this;
     }
 
@@ -75,7 +73,7 @@ export abstract class BaseComponent<T extends Element> {
      * Add classes
      */
     public class(...classes: string[]) {
-        this.element.classList.add(...classes.flatMap(c => c.split(" ")));
+            this.element.classList.add(...classes.flatMap(c => c.split(" ")));
         return this;
     }
 
