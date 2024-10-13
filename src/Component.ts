@@ -56,7 +56,7 @@ export class Component<T extends HTMLElement = HTMLElement> extends BaseComponen
      * @param selectors
      * @typeParam T Component element type
      */
-    public select<T extends HTMLElement>(selectors: string): Component<T> | null {
+    public select<T extends HTMLElement = HTMLElement>(selectors: string): Component<T> | null {
         const element = this.element.querySelector<T>(selectors);
         if (element == null) return null;
         return new Component<T>(element);
