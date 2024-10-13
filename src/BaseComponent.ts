@@ -57,7 +57,7 @@ export abstract class BaseComponent<T extends Element> {
      * Insert component after the last child
      */
     public append(...components: BaseComponent<any>[]) {
-        components.map((component) => this.element.appendChild(component.element))
+        components.forEach((component) => this.element.appendChild(component.element))
         return this;
     }
 
@@ -65,7 +65,7 @@ export abstract class BaseComponent<T extends Element> {
      * Insert component before the first child
      */
     public prepend(...components: BaseComponent<any>[]) {
-        components.map((component) => this.element.appendChild(component.element))
+        components.forEach((component) => this.element.appendChild(component.element))
         return this;
     }
 
