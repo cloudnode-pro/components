@@ -48,6 +48,31 @@ export class Component<T extends HTMLElement = HTMLElement> extends BaseComponen
         return new Component<T>(document.createRange().createContextualFragment(html).children[0] as T);
     }
 
+    /**
+     * Get the first component child that matches the specified
+     * {@link https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors CSS selector}, or group of CSS selectors.
+     * If no matches are found, null is returned.
+     *
+     * @param selectors
+     * @typeParam T Component element type
+     */
+    public select<T extends HTMLElement = HTMLElement>(selectors: string): Component<T> | null {
+        const element = this.element.querySelector<T>(selectors);
+        if (element == null) return null;
+        return new Component<T>(element);
+    }
+
+    /**
+     * Get all child components that match the specified
+     * {@link https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors CSS selector}, or group of CSS selectors.
+     *
+     * @param selectors
+     * @typeParam T Component element type
+     */
+    public selectAll<T extends HTMLElement = HTMLElement>(selectors: string): Component<T>[] {
+        return [...this.element.querySelectorAll<T>(selectors)].map(e => new Component<T>(e));
+    }
+
     public override on<K extends keyof HTMLElementEventMap>(type: K, listener: (ev: HTMLElementEventMap[K], component: this) => any, options?: boolean | AddEventListenerOptions) {
         return super.on(type as any, listener, options);
     }
