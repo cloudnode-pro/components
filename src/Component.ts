@@ -49,31 +49,28 @@ export class Component<T extends HTMLElement = HTMLElement> extends BaseComponen
     }
 
     /**
-     * Selects a single child component matching the given CSS selector.
-     * This method acts as a shorthand for `Element#querySelector`.
-     * 
-     * @param selector A string containing one or more selectors to match.
-     * @returns A `Component<T>` instance wrapping the matched element, or `null` if no match is found.
-     * @see https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors
+     * Get the first component child that matches the specified
+     * {@link https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors CSS selector}, or group of CSS selectors.
+     * If no matches are found, null is returned.
+     *
+     * @param selectors
+     * @typeParam T Component element type
      */
-    public select<T extends HTMLElement>(selector: string): Component<T> | null {
-        const element = this.element.querySelector<T>(selector);
+    public select<T extends HTMLElement>(selectors: string): Component<T> | null {
+        const element = this.element.querySelector<T>(selectors);
         if (element == null) return null;
         return new Component<T>(element);
     }
 
     /**
-     * Selects all child components matching the given CSS selector.
-     * This method acts as a shorthand for `Element#querySelectorAll` and returns
-     * an array of `Component<T>` instances wrapping the matched elements.
+     * Get all child components that match the specified
+     * {@link https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors CSS selector}, or group of CSS selectors.
      *
-     * @param selector A string containing one or more selectors to match.
-     * @returns An array of `Component<T>` instances wrapping the matched elements.
-     * If no elements match, an empty array is returned.
-     * @see https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors
+     * @param selectors
+     * @typeParam T Component element type
      */
-    public selectAll<T extends HTMLElement = HTMLElement>(selector: string): Component<T>[] {
-        return [...this.element.querySelectorAll<T>(selector)].map(e => new Component<T>(e));
+    public selectAll<T extends HTMLElement = HTMLElement>(selectors: string): Component<T>[] {
+        return [...this.element.querySelectorAll<T>(selectors)].map(e => new Component<T>(e));
     }
 
     public override on<K extends keyof HTMLElementEventMap>(type: K, listener: (ev: HTMLElementEventMap[K], component: this) => any, options?: boolean | AddEventListenerOptions) {
