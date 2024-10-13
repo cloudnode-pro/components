@@ -62,7 +62,7 @@ export class Component<T extends HTMLElement = HTMLElement> extends BaseComponen
      * `Element#querySelectorAll` shorthand
      * @param selector A group of selectors
      */
-    public selectAll<T extends HTMLElement>(selector: string): Component<T>[] {
+    public selectAll<T extends HTMLElement = HTMLElement>(selector: string): Component<T>[] {
         return [...this.element.querySelectorAll<T>(selector)].map(e => new Component<T>(e));
     }
 
