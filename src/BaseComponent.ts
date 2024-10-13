@@ -65,7 +65,7 @@ export abstract class BaseComponent<T extends Element> {
      * Insert component before the first child
      */
     public prepend(...components: BaseComponent<any>[]) {
-        components.forEach((component) => this.element.appendChild(component.element))
+        components.forEach((component) => this.element.prepend(component.element))
         return this;
     }
 
