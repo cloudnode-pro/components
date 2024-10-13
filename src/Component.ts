@@ -63,8 +63,7 @@ export class Component<T extends HTMLElement = HTMLElement> extends BaseComponen
      * @param selector A group of selectors
      */
     public selectAll<T extends HTMLElement>(selector: string): Component<T>[] {
-        const elements = [...this.element.querySelectorAll<T>(selector)];
-        return elements.map(e => new Component<T>(e));
+        return [...this.element.querySelectorAll<T>(selector)].map(e => new Component<T>(e));
     }
 
     public override on<K extends keyof HTMLElementEventMap>(type: K, listener: (ev: HTMLElementEventMap[K], component: this) => any, options?: boolean | AddEventListenerOptions) {
