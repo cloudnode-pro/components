@@ -56,16 +56,16 @@ export abstract class BaseComponent<T extends Element> {
     /**
      * Insert component after the last child
      */
-    public append(component: BaseComponent<any>) {
-        this.element.appendChild(component.element);
+    public append(...components: BaseComponent<any>[]) {
+        components.forEach((component) => this.element.appendChild(component.element))
         return this;
     }
 
     /**
      * Insert component before the first child
      */
-    public prepend(component: BaseComponent<any>) {
-        this.element.prepend(component.element);
+    public prepend(...components: BaseComponent<any>[]) {
+        components.forEach((component) => this.element.prepend(component.element))
         return this;
     }
 
