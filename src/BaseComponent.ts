@@ -73,7 +73,7 @@ export abstract class BaseComponent<T extends Element> {
      * Add classes
      */
     public class(...classes: string[]) {
-            this.element.classList.add(...classes.flatMap(c => c.split(" ")));
+        this.element.classList.add(...classes.flatMap(c => c.split(" ")));
         return this;
     }
 
