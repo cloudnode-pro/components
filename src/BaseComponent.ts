@@ -56,7 +56,8 @@ export abstract class BaseComponent<T extends Element> {
     /**
      * Insert component after the last child
      */
-    public append(component: BaseComponent<any>) {
+    public append(component?: BaseComponent<any> | null) {
+        if (!component) return this;
         this.element.appendChild(component.element);
         return this;
     }
@@ -64,7 +65,8 @@ export abstract class BaseComponent<T extends Element> {
     /**
      * Insert component before the first child
      */
-    public prepend(component: BaseComponent<any>) {
+    public prepend(component?: BaseComponent<any> | null) {
+        if (!component) return this;
         this.element.prepend(component.element);
         return this;
     }
