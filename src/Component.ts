@@ -48,6 +48,25 @@ export class Component<T extends HTMLElement = HTMLElement> extends BaseComponen
         return new Component<T>(document.createRange().createContextualFragment(html).children[0] as T);
     }
 
+    /**
+     * `Element#querySelector` shorthand
+     * @param selector A group of selectors
+     */
+    public select<T extends HTMLElement>(selector: string): Component<T> | null {
+        const element = this.element.querySelector<T>(selector);
+        if (element == null) return null;
+        return new Component<T>(element);
+    }
+
+    /**
+     * `Element#querySelectorAll` shorthand
+     * @param selector A group of selectors
+     */
+    public selectAll<T extends HTMLElement>(selector: string): Component<T>[] {
+        const elements = [...this.element.querySelectorAll<T>(selector)];
+        return elements.map(e => new Component<T>(e));
+    }
+
     public override on<K extends keyof HTMLElementEventMap>(type: K, listener: (ev: HTMLElementEventMap[K], component: this) => any, options?: boolean | AddEventListenerOptions) {
         return super.on(type as any, listener, options);
     }
