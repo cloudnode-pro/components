@@ -49,8 +49,12 @@ export class Component<T extends HTMLElement = HTMLElement> extends BaseComponen
     }
 
     /**
-     * `Element#querySelector` shorthand
-     * @param selector A group of selectors
+     * Selects a single child component matching the given CSS selector.
+     * This method acts as a shorthand for `Element#querySelector`.
+     * 
+     * @param selector A string containing one or more selectors to match.
+     * @returns A `Component<T>` instance wrapping the matched element, or `null` if no match is found.
+     * @see https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors
      */
     public select<T extends HTMLElement>(selector: string): Component<T> | null {
         const element = this.element.querySelector<T>(selector);
@@ -59,8 +63,14 @@ export class Component<T extends HTMLElement = HTMLElement> extends BaseComponen
     }
 
     /**
-     * `Element#querySelectorAll` shorthand
-     * @param selector A group of selectors
+     * Selects all child components matching the given CSS selector.
+     * This method acts as a shorthand for `Element#querySelectorAll` and returns
+     * an array of `Component<T>` instances wrapping the matched elements.
+     *
+     * @param selector A string containing one or more selectors to match.
+     * @returns An array of `Component<T>` instances wrapping the matched elements.
+     * If no elements match, an empty array is returned.
+     * @see https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors
      */
     public selectAll<T extends HTMLElement = HTMLElement>(selector: string): Component<T>[] {
         return [...this.element.querySelectorAll<T>(selector)].map(e => new Component<T>(e));
