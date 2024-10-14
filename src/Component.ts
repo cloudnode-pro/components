@@ -75,14 +75,14 @@ export class Component<T extends HTMLElement = HTMLElement> extends BaseComponen
 
     /**
      * Set style property
-     * @param name property name
-     * @param value property value
+     * @param name Property name
+     * @param value Property value
      */
     public css(name: string, value: string): typeof this;
 
     /**
      * Set style properties
-     * @param properties object of style property name and value pairs
+     * @param properties Object of style property name and value pairs
      */
     public css(properties: Record<string, string>): typeof this;
 
