@@ -96,9 +96,9 @@ export class Component<T extends HTMLElement = HTMLElement> extends BaseComponen
 
     public css(...args: [string, string] | [string, string, boolean] | [Record<string, string>]): typeof this {
         if (args.length === 2 || args.length === 3) {
-            const name: string = args[0],
-                value: string = args[1],
-                priority: boolean = args[2] ?? false;
+            const name: string = args[0];
+            const value: string = args[1];
+            const priority: boolean = args[2] ?? false;
             this.element.style.setProperty(name, value, priority ? "important" : void 0);
         }
         else {
