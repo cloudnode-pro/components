@@ -73,6 +73,29 @@ export class Component<T extends HTMLElement = HTMLElement> extends BaseComponen
         return [...this.element.querySelectorAll<T>(selectors)].map(e => new Component<T>(e));
     }
 
+    /**
+     * Set style property
+     * @param name property name
+     * @param value property value
+     */
+    public css(name: string, value: string): typeof this;
+
+    /**
+     * Set style properties
+     * @param properties object of style property name and value pairs
+     */
+    public css(properties: Record<string, string>): typeof this;
+
+    public css(...args: [string, string] | [Record<string, string>]): typeof this {
+        if (args.length === 2) {
+            const [name, value] = args;
+            this.element.style.setProperty(name, value);
+        }
+        else for (const [name, value] of Object.entries(args[0]))
+            this.css(name, value);
+        return this;
+    }
+
     public override on<K extends keyof HTMLElementEventMap>(type: K, listener: (ev: HTMLElementEventMap[K], component: this) => any, options?: boolean | AddEventListenerOptions) {
         return super.on(type as any, listener, options);
     }
