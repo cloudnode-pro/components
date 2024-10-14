@@ -81,15 +81,23 @@ export class Component<T extends HTMLElement = HTMLElement> extends BaseComponen
     public css(name: string, value: string): typeof this;
 
     /**
+     * Set style property
+     * @param name Property name
+     * @param value Property value
+     * @param priority Whether to make this rule `!important`
+     */
+    public css(name: string, value: string, priority: boolean): typeof this;
+
+    /**
      * Set style properties
      * @param properties Object of style property name and value pairs
      */
     public css(properties: Record<string, string>): typeof this;
 
-    public css(...args: [string, string] | [Record<string, string>]): typeof this {
-        if (args.length === 2) {
-            const [name, value] = args;
-            this.element.style.setProperty(name, value);
+    public css(...args: [string, string] | [string, string, boolean] | [Record<string, string>]): typeof this {
+        if (args.length === 2 || args.length === 3) {
+            const [name, value, priority] = args;
+            this.element.style.setProperty(name, value, priority ? "important" : void 0);
         }
         else for (const [name, value] of Object.entries(args[0]))
             this.css(name, value);
