@@ -73,6 +73,42 @@ export class Component<T extends HTMLElement = HTMLElement> extends BaseComponen
         return [...this.element.querySelectorAll<T>(selectors)].map(e => new Component<T>(e));
     }
 
+    /**
+     * Set style property
+     * @param name Property name
+     * @param value Property value
+     */
+    public css(name: string, value: string): typeof this;
+
+    /**
+     * Set style property
+     * @param name Property name
+     * @param value Property value
+     * @param priority Whether to make this rule `!important`
+     */
+    public css(name: string, value: string, priority: boolean): typeof this;
+
+    /**
+     * Set style properties
+     * @param properties Object of style property name and value pairs
+     */
+    public css(properties: Record<string, string>): typeof this;
+
+    public css(...args: [string, string] | [string, string, boolean] | [Record<string, string>]): typeof this {
+        if (args.length === 2 || args.length === 3) {
+            const name: string = args[0];
+            const value: string = args[1];
+            const priority: boolean = args[2] ?? false;
+            this.element.style.setProperty(name, value, priority ? "important" : void 0);
+        }
+        else {
+            const properties: Record<string, string> = args[0];
+            for (const [name, value] of Object.entries(properties))
+                this.css(name, value);
+        }
+        return this;
+    }
+
     public override on<K extends keyof HTMLElementEventMap>(type: K, listener: (ev: HTMLElementEventMap[K], component: this) => any, options?: boolean | AddEventListenerOptions) {
         return super.on(type as any, listener, options);
     }
