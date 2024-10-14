@@ -172,6 +172,14 @@ export abstract class BaseComponent<T extends Element> {
     }
 
     /**
+     * Remove the element
+     */
+    public remove(): this {
+        this.element.remove();
+        return this;
+    }
+
+    /**
      * Add event listener
      * @param type
      * @param listener
