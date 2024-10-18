@@ -19,15 +19,14 @@
  * Non-readonly non-method keys
  */
 type WritableKeys<T> = {
-        [Prop in keyof T]: (
-        (<G>() => G extends Pick<T, Prop> ? 1 : 2) extends
-            (<G>() => G extends Record<Prop, T[Prop]> ? 1 : 2)
-            ? true
-            : false
+    [Prop in keyof T]: (
+        (<G>() => G extends Pick<T, Prop> ? 1 : 2) extends (
+            <G>() => G extends Record<Prop, T[Prop]> ? 1 : 2
+            ) ? true : false
         ) extends false
         ? never
         : (T[Prop] extends Function | null ? never : Prop);
-    }[keyof T];
+}[keyof T];
 
 
 /**
