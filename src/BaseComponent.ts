@@ -14,6 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License along with @cldn/components.
  * If not, see <https://www.gnu.org/licenses/>.
  */
+import {NodeComponent} from "./NodeComponent.js";
 
 /**
  * Non-readonly non-method keys
@@ -39,33 +40,20 @@ type WritableKeys<T> = Extract<
  * An {@link !Element} component
  * @typeParam T Component element type
  */
-export abstract class BaseComponent<T extends Element> {
-    /**
-     * This component's element
-     */
-    public readonly element: T;
-
+export abstract class BaseComponent<T extends Element> extends NodeComponent<T> {
     /**
      * @param element Initial element for this component
      * @protected
      */
     protected constructor(element: T) {
-        this.element = element;
-    }
-
-    /**
-     * Insert component after the last child
-     */
-    public append(...components: BaseComponent<any>[]) {
-        components.forEach((component) => this.element.appendChild(component.element))
-        return this;
+        super(element);
     }
 
     /**
      * Insert component before the first child
      */
-    public prepend(...components: BaseComponent<any>[]) {
-        components.forEach((component) => this.element.prepend(component.element))
+    public prepend(...components: NodeComponent<any>[]) {
+        components.forEach((component) => this.node.prepend(component.node))
         return this;
     }
 
@@ -73,7 +61,7 @@ export abstract class BaseComponent<T extends Element> {
      * Add classes
      */
     public class(...classes: string[]) {
-        this.element.classList.add(...classes.flatMap(c => c.split(" ")));
+        this.node.classList.add(...classes.flatMap(c => c.split(" ")));
         return this;
     }
 
@@ -81,7 +69,7 @@ export abstract class BaseComponent<T extends Element> {
      * Remove classes
      */
     public removeClass(...classes: string[]) {
-        this.element.classList.remove(...classes.flatMap(c => c.split(" ")));
+        this.node.classList.remove(...classes.flatMap(c => c.split(" ")));
         return this;
     }
 
@@ -90,7 +78,7 @@ export abstract class BaseComponent<T extends Element> {
      */
     public toggleClass(...classes: string[]) {
         for (const c of new Set(classes.flatMap(c => c.split(" "))))
-            this.element.classList.toggle(c);
+            this.node.classList.toggle(c);
         return this;
     }
 
@@ -115,7 +103,7 @@ export abstract class BaseComponent<T extends Element> {
      * @returns true if component has all the specified classes
      */
     public hasClass(...classes: string[]) {
-        return classes.every(c => this.element.classList.contains(c));
+        return classes.every(c => this.node.classList.contains(c));
     }
 
     /**
@@ -124,7 +112,7 @@ export abstract class BaseComponent<T extends Element> {
      * @param [value] attribute value
      */
     public attr(name: string, value?: string) {
-        this.element.setAttribute(name, value ?? "");
+        this.node.setAttribute(name, value ?? "");
         return this;
     }
 
@@ -133,15 +121,7 @@ export abstract class BaseComponent<T extends Element> {
      * @param name attribute name
      */
     public removeAttr(name: string) {
-        this.element.removeAttribute(name);
-        return this;
-    }
-
-    /**
-     * Set text content
-     */
-    public text(text: string) {
-        this.element.textContent = text;
+        this.node.removeAttribute(name);
         return this;
     }
 
@@ -149,7 +129,7 @@ export abstract class BaseComponent<T extends Element> {
      * Set inner HTML
      */
     public html(html: string) {
-        this.element.innerHTML = html;
+        this.node.innerHTML = html;
         return this;
     }
 
@@ -159,7 +139,7 @@ export abstract class BaseComponent<T extends Element> {
      * @param value property value
      */
     public set<K extends WritableKeys<T>>(name: K, value: T[K]) {
-        this.element[name] = value;
+        this.node[name] = value;
         return this;
     }
 
@@ -168,14 +148,14 @@ export abstract class BaseComponent<T extends Element> {
      * @param name property name
      */
     public get<K extends WritableKeys<T>>(name: K): T[K] {
-        return this.element[name];
+        return this.node[name];
     }
 
     /**
      * Remove the element
      */
     public remove(): this {
-        this.element.remove();
+        this.node.remove();
         return this;
     }
 
@@ -185,15 +165,15 @@ export abstract class BaseComponent<T extends Element> {
      * @param listener
      * @param options
      */
-    public on<K extends keyof ElementEventMap>(type: K, listener: (ev: ElementEventMap[K], component: this) => any, options?: boolean | AddEventListenerOptions) {
-        this.element.addEventListener(type, e => listener(e, this), options);
+    public override on<K extends keyof ElementEventMap>(type: K, listener: (ev: ElementEventMap[K], component: this) => any, options?: boolean | AddEventListenerOptions) {
+        this.node.addEventListener(type, e => listener(e, this), options);
         return this;
     }
 
     /**
      * Get this component's outer HTML
      */
-    public toString() {
-        return this.element.outerHTML;
+    public override toString() {
+        return this.node.outerHTML;
     }
 }
