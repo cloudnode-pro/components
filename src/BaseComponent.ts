@@ -18,21 +18,22 @@
 /**
  * Non-readonly non-method keys
  */
-type WritableKeys<T> = Extract<
-    {
-        [Prop in keyof T]: (
-        (<G>() => G extends Pick<T, Prop> ? 1 : 2) extends
-            (<G>() => G extends Record<Prop, T[Prop]> ? 1 : 2)
-            ? true
-            : false
+type WritableKeys<T> = {
+    [Prop in keyof T]: (
+        (<G>() => G extends Pick<T, Prop> ? 1 : 2) extends (
+            <G>() => G extends Record<Prop, T[Prop]> ? 1 : 2
+            ) ? true : false
         ) extends false
         ? never
-        : Prop;
-    }[keyof T],
-    {
-        [K in keyof T]: T[K] extends Function ? never : K;
-    }[keyof T]
->;
+        : (T[Prop] extends Function | null | undefined ? never : Prop);
+}[keyof T];
+
+/**
+ * Non-method keys
+ */
+type ReadableKeys<T> = {
+    [Prop in keyof T]: T[Prop] extends Function | null | undefined ? never : Prop;
+}[keyof T];
 
 
 /**
@@ -167,7 +168,7 @@ export abstract class BaseComponent<T extends Element> {
      * Get element property
      * @param name property name
      */
-    public get<K extends WritableKeys<T>>(name: K): T[K] {
+    public get<K extends ReadableKeys<T>>(name: K): T[K] {
         return this.element[name];
     }
 
