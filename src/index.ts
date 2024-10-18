@@ -16,4 +16,6 @@
  */
 export {Component} from "./Component.js";
 export {ElementComponent} from "./ElementComponent.js";
+export {NodeComponent} from "./NodeComponent.js";
 export {SvgComponent} from "./SvgComponent.js";
+export {TextComponent} from "./TextComponent.js";
