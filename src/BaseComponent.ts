@@ -25,7 +25,7 @@ type WritableKeys<T> = {
             ) ? true : false
         ) extends false
         ? never
-        : (T[Prop] extends Function | null ? never : Prop);
+        : (T[Prop] extends Function | null | undefined ? never : Prop);
 }[keyof T];
 
 
