@@ -33,7 +33,7 @@ export class TextComponent extends NodeComponent<Text> {
 	 *
 	 * @throws {@link !DOMException} Always
 	 */
-	public override append(): typeof this {
+	public override append(): never {
 		throw new DOMException(`NodeComponent.append: Cannot add children to a ${this.constructor.name}`);
 	}
 
