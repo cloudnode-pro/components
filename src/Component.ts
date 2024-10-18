@@ -57,7 +57,7 @@ export class Component<T extends HTMLElement = HTMLElement> extends BaseComponen
      * @typeParam T Component element type
      */
     public select<T extends HTMLElement = HTMLElement>(selectors: string): Component<T> | null {
-        const element = this.element.querySelector<T>(selectors);
+        const element = this.node.querySelector<T>(selectors);
         if (element == null) return null;
         return new Component<T>(element);
     }
@@ -70,7 +70,7 @@ export class Component<T extends HTMLElement = HTMLElement> extends BaseComponen
      * @typeParam T Component element type
      */
     public selectAll<T extends HTMLElement = HTMLElement>(selectors: string): Component<T>[] {
-        return [...this.element.querySelectorAll<T>(selectors)].map(e => new Component<T>(e));
+        return [...this.node.querySelectorAll<T>(selectors)].map(e => new Component<T>(e));
     }
 
     /**
@@ -99,7 +99,7 @@ export class Component<T extends HTMLElement = HTMLElement> extends BaseComponen
             const name: string = args[0];
             const value: string = args[1];
             const priority: boolean = args[2] ?? false;
-            this.element.style.setProperty(name, value, priority ? "important" : void 0);
+            this.node.style.setProperty(name, value, priority ? "important" : void 0);
         }
         else {
             const properties: Record<string, string> = args[0];
