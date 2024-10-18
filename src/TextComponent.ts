@@ -14,20 +14,33 @@
  * You should have received a copy of the GNU Lesser General Public License along with @cldn/components.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import {ElementComponent} from "./index.js";
+import {NodeComponent} from "./NodeComponent.js";
 
 /**
- * An SVG component (`<svg>`)
+ * A text node component
  */
-export class SvgComponent extends ElementComponent<SVGSVGElement> {
-    public constructor(element?: SVGSVGElement) {
-        super(element ?? document.createElementNS("http://www.w3.org/2000/svg", "svg"));
-    }
+export class TextComponent extends NodeComponent<Text> {
+	/**
+	 * Create component
+	 * @param text Text node instance or text content string
+	 */
+	public constructor(text: Text | string) {
+		super(typeof text === "string" ? document.createTextNode(text) : text);
+	}
 
-    /**
-     * Create SVG component from `<svg>...</svg>` code
-     */
-    public static from(svg: string) {
-        return new SvgComponent(document.createRange().createContextualFragment(svg).children[0] as SVGSVGElement);
-    }
+	/**
+	 * @deprecated Cannot add children to a TextComponent
+	 *
+	 * @throws {@link !DOMException} Always
+	 */
+	public override append(): never {
+		throw new DOMException(`NodeComponent.append: Cannot add children to a ${this.constructor.name}`);
+	}
+
+	/**
+	 * Get the text content
+	 */
+	public override toString() {
+		return this.node.textContent;
+	}
 }
