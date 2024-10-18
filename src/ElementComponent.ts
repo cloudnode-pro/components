@@ -40,7 +40,7 @@ type WritableKeys<T> = Extract<
  * An {@link !Element} component
  * @typeParam T Component element type
  */
-export abstract class BaseComponent<T extends Element> extends NodeComponent<T> {
+export abstract class ElementComponent<T extends Element> extends NodeComponent<T> {
     /**
      * @param element Initial element for this component
      * @protected
