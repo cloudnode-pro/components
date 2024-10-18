@@ -14,6 +14,6 @@
  * You should have received a copy of the GNU Lesser General Public License along with @cldn/components.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-export {ElementComponent} from "./ElementComponent.js";
 export {Component} from "./Component.js";
+export {ElementComponent} from "./ElementComponent.js";
 export {SvgComponent} from "./SvgComponent.js";
