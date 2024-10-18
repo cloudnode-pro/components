@@ -51,12 +51,26 @@ export abstract class NodeComponent<T extends Node> {
 
 	/**
 	 * Add event listener
-	 * @param type
-	 * @param listener
-	 * @param options
+	 * @param type A case-sensitive string representing the event type to listen for.
+	 * @param listener The function that is called when an event of the specified type occurs.
 	 */
-	public on(type: string, listener: (ev: Event, component: this) => any, options?: boolean | AddEventListenerOptions) {
-		this.node.addEventListener(type, e => listener(e, this), options);
-		return this;
-	}
+	public on(type: string, listener: (ev: Event, component: this) => any): typeof this;
+	/**
+	 * Add event listener
+	 * @param type A case-sensitive string representing the event type to listen for.
+	 * @param listener The function that is called when an event of the specified type occurs.
+	 * @param options An object that specifies characteristics about the event listener. See {@link https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#options `options` on MDN}
+	 */
+	public on(type: string, listener: (ev: Event, component: this) => any, options: AddEventListenerOptions): typeof this;
+    /**
+     * Add event listener
+     * @param type A case-sensitive string representing the event type to listen for.
+     * @param listener The function that is called when an event of the specified type occurs.
+     * @param useCapture See {@link https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#usecapture `useCapture` on MDN}
+     */
+    public on(type: string, listener: (ev: Event, component: this) => any, useCapture: boolean): typeof this;
+    public on(type: string, listener: (ev: Event, component: this) => any, c?: boolean | AddEventListenerOptions) {
+        this.node.addEventListener(type, e => listener(e, this), c);
+        return this;
+    }
 }

@@ -159,15 +159,11 @@ export abstract class ElementComponent<T extends Element> extends NodeComponent<
         return this;
     }
 
-    /**
-     * Add event listener
-     * @param type
-     * @param listener
-     * @param options
-     */
-    public override on<K extends keyof ElementEventMap>(type: K, listener: (ev: ElementEventMap[K], component: this) => any, options?: boolean | AddEventListenerOptions) {
-        this.node.addEventListener(type, e => listener(e, this), options);
-        return this;
+    public override on<K extends keyof ElementEventMap>(type: K, listener: (ev: ElementEventMap[K], component: this) => any): typeof this;
+    public override on<K extends keyof ElementEventMap>(type: K, listener: (ev: ElementEventMap[K], component: this) => any, options: AddEventListenerOptions): typeof this;
+    public override on<K extends keyof ElementEventMap>(type: K, listener: (ev: ElementEventMap[K], component: this) => any, useCapture: boolean): typeof this;
+    public override on<K extends keyof ElementEventMap>(type: K, listener: (ev: ElementEventMap[K], component: this) => any, c?: boolean | AddEventListenerOptions): typeof this {
+        return super.on(type as any, listener, c as any);
     }
 
     /**

@@ -109,7 +109,10 @@ export class Component<T extends HTMLElement = HTMLElement> extends ElementCompo
         return this;
     }
 
-    public override on<K extends keyof HTMLElementEventMap>(type: K, listener: (ev: HTMLElementEventMap[K], component: this) => any, options?: boolean | AddEventListenerOptions) {
-        return super.on(type as any, listener, options);
+    public override on<K extends keyof HTMLElementEventMap>(type: K, listener: (ev: HTMLElementEventMap[K], component: this) => any): typeof this;
+    public override on<K extends keyof HTMLElementEventMap>(type: K, listener: (ev: HTMLElementEventMap[K], component: this) => any, options: AddEventListenerOptions): typeof this;
+    public override on<K extends keyof HTMLElementEventMap>(type: K, listener: (ev: HTMLElementEventMap[K], component: this) => any, useCapture: boolean): typeof this;
+    public override on<K extends keyof HTMLElementEventMap>(type: K, listener: (ev: HTMLElementEventMap[K], component: this) => any, c?: boolean | AddEventListenerOptions): typeof this {
+        return super.on(type as any, listener, c as any);
     }
 }
