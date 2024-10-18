@@ -28,6 +28,13 @@ type WritableKeys<T> = {
         : (T[Prop] extends Function | null | undefined ? never : Prop);
 }[keyof T];
 
+/**
+ * Non-method keys
+ */
+type ReadableKeys<T> = {
+    [Prop in keyof T]: T[Prop] extends Function | null | undefined ? never : Prop;
+}[keyof T];
+
 
 /**
  * An {@link !Element} component
@@ -161,7 +168,7 @@ export abstract class BaseComponent<T extends Element> {
      * Get element property
      * @param name property name
      */
-    public get<K extends WritableKeys<T>>(name: K): T[K] {
+    public get<K extends ReadableKeys<T>>(name: K): T[K] {
         return this.element[name];
     }
 
