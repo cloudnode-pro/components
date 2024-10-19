@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License along with @cldn/components.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import {BaseComponent} from "./index.js";
+import {ElementComponent} from "./index.js";
 
 type ElementToTagName<T extends HTMLElement> = {
     [K in keyof HTMLElementTagNameMap]: HTMLElementTagNameMap[K] extends T ? K : never
@@ -30,7 +30,7 @@ type HtmlTagString<T extends HTMLElement> =
  * To create your own HTML component, it's recommended to extend this class.
  * @typeParam T Component element type
  */
-export class Component<T extends HTMLElement = HTMLElement> extends BaseComponent<T> {
+export class Component<T extends HTMLElement = HTMLElement> extends ElementComponent<T> {
     /**
      * Create Component instance
      * @param element Instance or tag name
@@ -61,7 +61,7 @@ export class Component<T extends HTMLElement = HTMLElement> extends BaseComponen
      * @typeParam T Component element type
      */
     public select<T extends HTMLElement = HTMLElement>(selectors: string): Component<T> | null {
-        const element = this.element.querySelector<T>(selectors);
+        const element = this.node.querySelector<T>(selectors);
         if (element == null) return null;
         return new Component<T>(element);
     }
@@ -74,7 +74,7 @@ export class Component<T extends HTMLElement = HTMLElement> extends BaseComponen
      * @typeParam T Component element type
      */
     public selectAll<T extends HTMLElement = HTMLElement>(selectors: string): Component<T>[] {
-        return [...this.element.querySelectorAll<T>(selectors)].map(e => new Component<T>(e));
+        return [...this.node.querySelectorAll<T>(selectors)].map(e => new Component<T>(e));
     }
 
     /**
@@ -103,7 +103,7 @@ export class Component<T extends HTMLElement = HTMLElement> extends BaseComponen
             const name: string = args[0];
             const value: string = args[1];
             const priority: boolean = args[2] ?? false;
-            this.element.style.setProperty(name, value, priority ? "important" : void 0);
+            this.node.style.setProperty(name, value, priority ? "important" : undefined);
         }
         else {
             const properties: Record<string, string> = args[0];
@@ -113,7 +113,10 @@ export class Component<T extends HTMLElement = HTMLElement> extends BaseComponen
         return this;
     }
 
-    public override on<K extends keyof HTMLElementEventMap>(type: K, listener: (ev: HTMLElementEventMap[K], component: this) => any, options?: boolean | AddEventListenerOptions) {
-        return super.on(type as any, listener, options);
+    public override on<K extends keyof HTMLElementEventMap>(type: K, listener: (ev: HTMLElementEventMap[K], component: this) => any): typeof this;
+    public override on<K extends keyof HTMLElementEventMap>(type: K, listener: (ev: HTMLElementEventMap[K], component: this) => any, options: AddEventListenerOptions): typeof this;
+    public override on<K extends keyof HTMLElementEventMap>(type: K, listener: (ev: HTMLElementEventMap[K], component: this) => any, useCapture: boolean): typeof this;
+    public override on<K extends keyof HTMLElementEventMap>(type: K, listener: (ev: HTMLElementEventMap[K], component: this) => any, c?: boolean | AddEventListenerOptions): typeof this {
+        return super.on(type as any, listener, c as any);
     }
 }
