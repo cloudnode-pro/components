@@ -20,6 +20,10 @@ type ElementToTagName<T extends HTMLElement> = {
     [K in keyof HTMLElementTagNameMap]: HTMLElementTagNameMap[K] extends T ? K : never
 }[keyof HTMLElementTagNameMap];
 
+type HtmlTagString<T extends HTMLElement> =
+    `<${{ [K in keyof HTMLElementTagNameMap]: HTMLElementTagNameMap[K] extends T ? K : never }[keyof HTMLElementTagNameMap]}>${string}`
+    | `<${{ [K in keyof HTMLElementTagNameMap]: HTMLElementTagNameMap[K] extends T ? K : never }[keyof HTMLElementTagNameMap]} ${string}`;
+
 /**
  * An {@link !HTMLElement} component.
  *
@@ -44,7 +48,7 @@ export class Component<T extends HTMLElement = HTMLElement> extends ElementCompo
      *
      * Note: only the first child of the HTML code will be used.
      */
-    public static from<T extends HTMLElement = HTMLElement>(html: `<${ElementToTagName<T>}${">" | " "}${string}`) {
+    public static from<T extends HTMLElement = HTMLElement>(html: HtmlTagString<T>) {
         return new Component<T>(document.createRange().createContextualFragment(html).children[0] as T);
     }
 
