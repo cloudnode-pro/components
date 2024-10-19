@@ -103,7 +103,7 @@ export class Component<T extends HTMLElement = HTMLElement> extends ElementCompo
             const name: string = args[0];
             const value: string = args[1];
             const priority: boolean = args[2] ?? false;
-            this.node.style.setProperty(name, value, priority ? "important" : void 0);
+            this.node.style.setProperty(name, value, priority ? "important" : undefined);
         }
         else {
             const properties: Record<string, string> = args[0];
