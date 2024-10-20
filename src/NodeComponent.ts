@@ -76,6 +76,7 @@ export abstract class NodeComponent<T extends Node> {
 
 	/**
 	 * Render this component in the place of a `<slot name="…"></slot>`.
+	 * @throws {@link !DOMException} When the slot is not found
 	 * @param slot The slot name
 	 * @param [parent] The parent element within to search for slots. Defaults to `document`
 	 */
