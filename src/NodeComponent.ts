@@ -73,4 +73,17 @@ export abstract class NodeComponent<T extends Node> {
         this.node.addEventListener(type, e => listener(e, this), c);
         return this;
     }
+
+	/**
+	 * Render this component in the place of a `<slot name="…"></slot>`.
+	 * If multiple slots with the same name are found, they will all be used.
+	 * @param slot The slot name
+	 * @param [parent] The parent element within to search for slots. Defaults to `document`
+	 */
+	public slot(slot: string, parent: ParentNode = document) {
+		const slotNodes = parent.querySelectorAll(`slot[name="${slot}"]`);
+		for (const slotNode of slotNodes)
+			slotNode.replaceWith(this.node);
+		return this;
+	}
 }
