@@ -81,7 +81,7 @@ export abstract class NodeComponent<T extends Node> {
 	 */
 	public slot(slot: string, parent: ParentNode = document) {
 		const slotNode = parent.querySelector(`slot[name="${slot}"]`);
-		if (slotNode == null) throw new DOMException(`NodeComponent.slot: Could not find slot ${slot}`);
+		if (slotNode === null) throw new DOMException(`Could not find slot "${slot}"`);
 		slotNode.replaceWith(this.node);
 		return this;
 	}
