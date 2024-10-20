@@ -82,23 +82,35 @@ jobs:
       - name: Copy package.json to build package
         run: cp package.json package/package
 
-      - name: Publish to NPM
+      - name: Publish release to NPM
+        if: "!github.event.release.prerelease"
         working-directory: ./package/package
         run: npm publish --provenance --access public
         env:
           NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
 
+      - name: Publish release candidate to NPM
+        if: github.event.release.prerelease
+        working-directory: ./package/package
+        run: npm publish --provenance --access public --tag rc
+        env:
+          NODE_AUTH_TOKEN: ${{secrets.NPM_TOKEN}}
+
       - name: Generate docs
+        if: "!github.event.release.prerelease"
         run: npm run docs
 
       - name: Set up GitHub pages
+        if: "!github.event.release.prerelease"
         uses: actions/configure-pages@v4
 
       - name: Upload docs artifact to pages
+        if: "!github.event.release.prerelease"
         uses: actions/upload-pages-artifact@v3
         with:
           path: docs
 
       - name: Deploy to GitHub Pages
+        if: "!github.event.release.prerelease"
         id: deployment
         uses: actions/deploy-pages@v4
