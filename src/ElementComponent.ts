@@ -15,6 +15,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 import {NodeComponent} from "./NodeComponent.js";
+import {DocumentComponent} from "./DocumentComponent.js";
 
 /**
  * Non-readonly non-method keys
@@ -132,6 +133,23 @@ export abstract class ElementComponent<T extends Element> extends NodeComponent<
     public html(html: string) {
         this.node.innerHTML = html;
         return this;
+    }
+
+    /**
+     * Template literal tag function that accepts HTML code with components in a
+     * string literal and returns a {@link DocumentComponent}
+     */
+    public tag(strings: TemplateStringsArray, ...components: NodeComponent<any>[]): DocumentComponent {
+        const ids = Array.from({length: components.length}, () => crypto.randomUUID());
+        const doc = new DocumentComponent(strings.reduce((acc, str, index) => {
+            acc += str;
+            if (index < components.length)
+                acc += `<slot name="${ids[index]}"></slot>`;
+            return acc;
+        }, ""));
+        for (const [index, component] of components.entries())
+            component.slot(ids[index]!, doc.node);
+        return doc;
     }
 
     /**
