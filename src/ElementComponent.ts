@@ -128,14 +128,6 @@ export abstract class ElementComponent<T extends Element> extends NodeComponent<
     }
 
     /**
-     * Set inner HTML
-     */
-    public html(html: string) {
-        this.node.innerHTML = html;
-        return this;
-    }
-
-    /**
      * Template literal tag function that accepts HTML code with components in a
      * string literal and returns a {@link DocumentComponent}
      */
@@ -150,6 +142,14 @@ export abstract class ElementComponent<T extends Element> extends NodeComponent<
         for (const [index, component] of components.entries())
             component.slot(ids[index]!, doc.node);
         return doc;
+    }
+
+    /**
+     * Append HTML
+     * @example component.html`<div>${component}</div>`
+     */
+    public html(strings: TemplateStringsArray, ...components: NodeComponent<any>[]): this {
+        return this.append(this.tag(strings, ...components));
     }
 
     /**
