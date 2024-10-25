@@ -145,8 +145,18 @@ export abstract class ElementComponent<T extends Element> extends NodeComponent<
     }
 
     /**
-     * Append HTML
-     * @example component.html`<div>${component}</div>`
+     * Append HTML.
+     *
+     * Any components (provided as `${...}` inside the HTML string literal)
+     * remain fully functional and are appended (not just as HTML).
+     * @example
+     * component.html`<div>${new Component("button")
+     *      .text("Click me")
+     *      .on("click", () => console.log("clicked"))
+     * }</div>`
+     * // Event listeners etc. are preserved.
+     * // Note the lack of parentheses.
+     * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals Template literals (Template strings) - MDN
      */
     public html(strings: TemplateStringsArray, ...components: NodeComponent<any>[]): this {
         return this.append(this.tag(strings, ...components));
