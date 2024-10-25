@@ -85,14 +85,14 @@ export abstract class NodeComponent<T extends Node> {
 
 	/**
 	 * Render this component in the place of a `<slot name="…"></slot>`.
-	 * If multiple slots with the same name are found, they will all be used.
+	 * @throws {@link !DOMException} When the slot is not found
 	 * @param slot The slot name
 	 * @param [parent] The parent element within to search for slots. Defaults to `document`
 	 */
 	public slot(slot: string, parent: ParentNode = document) {
-		const slotNodes = parent.querySelectorAll(`slot[name="${slot}"]`);
-		for (const slotNode of slotNodes)
-			slotNode.replaceWith(this.node);
+		const slotNode = parent.querySelector(`slot[name="${slot}"]`);
+		if (slotNode === null) throw new DOMException(`Could not find slot "${slot}"`);
+		slotNode.replaceWith(this.node);
 		return this;
 	}
 
