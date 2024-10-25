@@ -131,7 +131,7 @@ export abstract class ElementComponent<T extends Element> extends NodeComponent<
      * Template literal tag function that accepts HTML code with components in a
      * string literal and returns a {@link DocumentComponent}
      */
-    public tag(strings: TemplateStringsArray, ...components: NodeComponent<any>[]): DocumentComponent {
+    public static tag(strings: TemplateStringsArray, ...components: NodeComponent<any>[]): DocumentComponent {
         const ids = Array.from({length: components.length}, () => crypto.randomUUID());
         const doc = new DocumentComponent(strings.reduce((acc, str, index) => {
             acc += str;
@@ -159,7 +159,7 @@ export abstract class ElementComponent<T extends Element> extends NodeComponent<
      * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals Template literals (Template strings) - MDN
      */
     public html(strings: TemplateStringsArray, ...components: NodeComponent<any>[]): this {
-        return this.append(this.tag(strings, ...components));
+        return this.append(ElementComponent.tag(strings, ...components));
     }
 
     /**
