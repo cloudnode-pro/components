@@ -86,4 +86,13 @@ export abstract class NodeComponent<T extends Node> {
 			slotNode.replaceWith(this.node);
 		return this;
 	}
+
+	/**
+	 * Empty the component (remove children)
+	 */
+	public empty() {
+		while (this.node.firstChild)
+			this.node.removeChild(this.node.firstChild);
+		return this;
+	}
 }
