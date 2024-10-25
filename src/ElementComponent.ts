@@ -195,6 +195,11 @@ export abstract class ElementComponent<T extends Element> extends NodeComponent<
         return super.on(type as any, listener, c as any);
     }
 
+    public override empty() {
+        this.node.replaceChildren();
+        return this;
+    }
+
     /**
      * Get this component's outer HTML
      */
