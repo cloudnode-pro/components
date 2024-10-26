@@ -29,7 +29,7 @@ export class DocumentComponent extends NodeComponent<DocumentFragment> {
      * string literal
      */
     public static tag(strings: TemplateStringsArray, ...components: NodeComponent<any>[]): DocumentComponent {
-        const idPrefix = "tag-" + crypto.randomUUID() + "-";
+        const idPrefix = `tag-${crypto.randomUUID()}-`;
         const doc = new DocumentComponent(strings.reduce((acc, str, index) => acc += `${str}${index < components.length ? `<slot name="${idPrefix}${index - 1}"></slot>` : ""}`, ""));
         for (const [index, component] of components.entries())
             component.slot(idPrefix + index, doc.node);
