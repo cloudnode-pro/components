@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License along with @cldn/components.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import {NodeComponent} from "./NodeComponent.js";
+import {NodeComponent} from "./index.js";
 
 /**
  * A {@link !DocumentFragment} component
