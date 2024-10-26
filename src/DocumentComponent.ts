@@ -23,4 +23,16 @@ export class DocumentComponent extends NodeComponent<DocumentFragment> {
     public constructor(html?: string) {
         super(html ? document.createRange().createContextualFragment(html) : document.createDocumentFragment());
     }
+
+    /**
+     * Template literal tag function that accepts HTML code with components in a
+     * string literal
+     */
+    public static tag(strings: TemplateStringsArray, ...components: NodeComponent<any>[]): DocumentComponent {
+        const idPrefix = "tag-" + crypto.randomUUID() + "-";
+        const doc = new DocumentComponent(strings.reduce((acc, str, index) => acc += `${str}${index < components.length ? `<slot name="${idPrefix}${index + 1}"></slot>` : ""}`, ""));
+        for (const [index, component] of components.entries())
+            component.slot(idPrefix + index, doc.node);
+        return doc;
+    }
 }

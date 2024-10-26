@@ -51,18 +51,6 @@ export abstract class ElementComponent<T extends Element> extends NodeComponent<
     }
 
     /**
-     * Template literal tag function that accepts HTML code with components in a
-     * string literal and returns a {@link DocumentComponent}
-     */
-    public static tag(strings: TemplateStringsArray, ...components: NodeComponent<any>[]): DocumentComponent {
-        const idPrefix = "tag-" + crypto.randomUUID() + "-";
-        const doc = new DocumentComponent(strings.reduce((acc, str, index) => acc += `${str}${index < components.length ? `<slot name="${idPrefix}${index + 1}"></slot>` : ""}`, ""));
-        for (const [index, component] of components.entries())
-            component.slot(idPrefix + index, doc.node);
-        return doc;
-    }
-
-    /**
      * Insert component before the first child
      */
     public prepend(...components: NodeComponent<any>[]) {
@@ -153,7 +141,7 @@ export abstract class ElementComponent<T extends Element> extends NodeComponent<
      * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals Template literals (Template strings) - MDN
      */
     public html(strings: TemplateStringsArray, ...components: NodeComponent<any>[]): this {
-        return this.append(ElementComponent.tag(strings, ...components));
+        return this.append(DocumentComponent.tag(strings, ...components));
     }
 
     /**
