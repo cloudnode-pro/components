@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License along with @cldn/components.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import {NodeComponent, DocumentComponent} from "./index.js";
+import {DocumentComponent, NodeComponent} from "./index.js";
 
 /**
  * Non-readonly non-method keys
@@ -48,6 +48,18 @@ export abstract class ElementComponent<T extends Element> extends NodeComponent<
      */
     protected constructor(element: T) {
         super(element);
+    }
+
+    /**
+     * Template literal tag function that accepts HTML code with components in a
+     * string literal and returns a {@link DocumentComponent}
+     */
+    public static tag(strings: TemplateStringsArray, ...components: NodeComponent<any>[]): DocumentComponent {
+        const idPrefix = "tag-" + crypto.randomUUID() + "-";
+        const doc = new DocumentComponent(strings.reduce((acc, str, index) => acc += `${str}${index < components.length ? `<slot name="${idPrefix}${index + 1}"></slot>` : ""}`, ""));
+        for (const [index, component] of components.entries())
+            component.slot(idPrefix + index, doc.node);
+        return doc;
     }
 
     /**
@@ -124,23 +136,6 @@ export abstract class ElementComponent<T extends Element> extends NodeComponent<
     public removeAttr(name: string) {
         this.node.removeAttribute(name);
         return this;
-    }
-
-    /**
-     * Template literal tag function that accepts HTML code with components in a
-     * string literal and returns a {@link DocumentComponent}
-     */
-    public static tag(strings: TemplateStringsArray, ...components: NodeComponent<any>[]): DocumentComponent {
-        const ids = Array.from({length: components.length}, () => crypto.randomUUID());
-        const doc = new DocumentComponent(strings.reduce((acc, str, index) => {
-            acc += str;
-            if (index < components.length)
-                acc += `<slot name="${ids[index]}"></slot>`;
-            return acc;
-        }, ""));
-        for (const [index, component] of components.entries())
-            component.slot(ids[index]!, doc.node);
-        return doc;
     }
 
     /**
