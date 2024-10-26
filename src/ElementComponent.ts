@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License along with @cldn/components.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import {NodeComponent} from "./NodeComponent.js";
+import {DocumentComponent, NodeComponent} from "./index.js";
 
 /**
  * Non-readonly non-method keys
@@ -127,11 +127,21 @@ export abstract class ElementComponent<T extends Element> extends NodeComponent<
     }
 
     /**
-     * Set inner HTML
+     * Append HTML.
+     *
+     * Any components (provided as `${...}` inside the HTML string literal)
+     * remain fully functional and are appended (not just as HTML).
+     * @example
+     * component.html`<div>${new Component("button")
+     *      .text("Click me")
+     *      .on("click", () => console.log("clicked"))
+     * }</div>`
+     * // Event listeners etc. are preserved.
+     * // Note the lack of parentheses.
+     * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals Template literals (Template strings) - MDN}
      */
-    public html(html: string) {
-        this.node.innerHTML = html;
-        return this;
+    public html(strings: TemplateStringsArray, ...components: NodeComponent<any>[]): this {
+        return this.append(DocumentComponent.tag(strings, ...components));
     }
 
     /**
@@ -165,6 +175,11 @@ export abstract class ElementComponent<T extends Element> extends NodeComponent<
     public override on<K extends keyof ElementEventMap>(type: K, listener: (ev: ElementEventMap[K], component: this) => any, useCapture: boolean): typeof this;
     public override on<K extends keyof ElementEventMap>(type: K, listener: (ev: ElementEventMap[K], component: this) => any, c?: boolean | AddEventListenerOptions): typeof this {
         return super.on(type as any, listener, c as any);
+    }
+
+    public override empty() {
+        this.node.replaceChildren();
+        return this;
     }
 
     /**

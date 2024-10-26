@@ -15,6 +15,7 @@
  * If not, see <https://www.gnu.org/licenses/>.
  */
 export {NodeComponent} from "./NodeComponent.js";
+export {DocumentComponent} from "./DocumentComponent.js";
 export {TextComponent} from "./TextComponent.js";
 export {ElementComponent} from "./ElementComponent.js";
 export {Component} from "./Component.js";
