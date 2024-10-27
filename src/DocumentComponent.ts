@@ -36,7 +36,7 @@ export class DocumentComponent extends NodeComponent<DocumentFragment> {
             const component = components[index - 1];
             if (component instanceof NodeComponent) {
                 nodes.push(component);
-                return acc + `${str}<slot name="${idPrefix}${nodes.length - 1}"></slot>`;
+                return `${acc}${str}<slot name="${idPrefix}${nodes.length - 1}"></slot>`;
             }
             return acc + str + String(component);
         }, ""));
