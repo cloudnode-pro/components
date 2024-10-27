@@ -28,10 +28,19 @@ export class DocumentComponent extends NodeComponent<DocumentFragment> {
      * Template literal tag function that accepts HTML code with components in a
      * string literal
      */
-    public static tag(strings: TemplateStringsArray, ...components: NodeComponent<any>[]): DocumentComponent {
+    public static tag(strings: TemplateStringsArray, ...components: (any | NodeComponent<any>)[]): DocumentComponent {
         const idPrefix = `tag-${crypto.randomUUID()}-`;
-        const doc = new DocumentComponent(strings.reduce((acc, str, index) => acc + `${str}${index < components.length ? `<slot name="${idPrefix}${index - 1}"></slot>` : ""}`, ""));
-        for (const [index, component] of components.entries())
+        const nodes: NodeComponent<any>[] = [];
+        const doc = new DocumentComponent(strings.reduce((acc, str, index) => {
+            const component = components[index - 1];
+            if (component === undefined) return acc + str;
+            if (component instanceof NodeComponent) {
+                nodes.push(component);
+                return acc + `${str}<slot name="${idPrefix}${nodes.length - 1}"></slot>`;
+            }
+            return acc + str + String(component);
+        }, ""));
+        for (const [index, component] of nodes.entries())
             component.slot(idPrefix + index, doc.node);
         return doc;
     }

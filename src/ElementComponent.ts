@@ -140,7 +140,7 @@ export abstract class ElementComponent<T extends Element> extends NodeComponent<
      * // Note the lack of parentheses.
      * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals Template literals (Template strings) - MDN}
      */
-    public html(strings: TemplateStringsArray, ...components: NodeComponent<any>[]): this {
+    public html(strings: TemplateStringsArray, ...components: (any | NodeComponent<any>)[]): this {
         return this.append(DocumentComponent.tag(strings, ...components));
     }
 
