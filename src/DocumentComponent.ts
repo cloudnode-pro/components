@@ -32,8 +32,8 @@ export class DocumentComponent extends NodeComponent<DocumentFragment> {
         const idPrefix = `tag-${crypto.randomUUID()}-`;
         const nodes: NodeComponent<any>[] = [];
         const doc = new DocumentComponent(strings.reduce((acc, str, index) => {
+            if (index >= components.length) return acc + str;
             const component = components[index - 1];
-            if (component === undefined) return acc + str;
             if (component instanceof NodeComponent) {
                 nodes.push(component);
                 return acc + `${str}<slot name="${idPrefix}${nodes.length - 1}"></slot>`;
