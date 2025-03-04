@@ -47,8 +47,7 @@ export class DocumentComponent extends NodeComponent<DocumentFragment> {
 
     public override clone(deep = true) {
         const doc = new DocumentComponent();
-        const node = this.node.cloneNode(deep);
-        doc.node.append(node);
+        doc.node.append(this.node.cloneNode(deep));
         return doc;
     }
 }
