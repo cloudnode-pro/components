@@ -59,6 +59,14 @@ export abstract class NodeComponent<T extends Node> {
 	}
 
 	/**
+	 * Clone this component. Event listeners are not cloned.
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Node/cloneNode Node: cloneNode() - MDN}
+	 * @param [deep] Whether to clone the whole subtree.
+	 * @returns A duplicate of this component.
+	 */
+	public abstract clone(deep?: boolean): NodeComponent<T>;
+
+	/**
 	 * Add event listener
 	 * @param type A case-sensitive string representing the event type to listen for.
 	 * @param listener The function that is called when an event of the specified type occurs.

@@ -59,6 +59,25 @@ export abstract class ElementComponent<T extends Element> extends NodeComponent<
     }
 
     /**
+     * Insert components in the children list of this `ElementComponent`’s parent, just before this `ElementComponent`.
+     * @param components Components to insert
+     */
+    public before(...components: NodeComponent<any>[]) {
+        this.node.before(...components.map(c => c.node));
+        return this;
+    }
+
+    /**
+     * Insert components in the children list of this `ElementComponent`’s parent, just after this `ElementComponent`.
+     * @param components Components to insert
+     */
+    public after(...components: NodeComponent<any>[]) {
+        this.node.after(...components.map(c => c.node));
+        return this;
+    }
+
+
+    /**
      * Add classes
      */
     public class(...classes: string[]) {
@@ -160,6 +179,23 @@ export abstract class ElementComponent<T extends Element> extends NodeComponent<
      */
     public get<K extends ReadableKeys<T>>(name: K): T[K] {
         return this.node[name];
+    }
+
+    /**
+     * Check whether the component is visible.
+     * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Element/checkVisibility Element: checkVisibility() - MDN}
+     */
+    public isVisible() {
+        return this.node.checkVisibility();
+    }
+
+    /**
+     * Get a {@link !DOMRect} object providing information about the size of a component and its position relative to
+     * the {@link https://developer.mozilla.org/en-US/docs/Glossary/Viewport viewport}.
+     * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect Element: getBoundingClientRect() - MDN}
+     */
+    public boundingClientRect() {
+        return this.node.getBoundingClientRect();
     }
 
     /**

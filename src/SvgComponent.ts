@@ -30,4 +30,8 @@ export class SvgComponent extends ElementComponent<SVGSVGElement> {
     public static from(svg: string) {
         return new SvgComponent(document.createRange().createContextualFragment(svg).children[0] as SVGSVGElement);
     }
+
+    public override clone(deep = true) {
+        return new SvgComponent(this.node.cloneNode(deep) as SVGSVGElement);
+    }
 }

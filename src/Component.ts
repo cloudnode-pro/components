@@ -78,6 +78,18 @@ export class Component<T extends HTMLElement = HTMLElement> extends ElementCompo
     }
 
     /**
+     * Traverse the component and its parents (heading toward the document root) until it finds a component that matches
+     * the specified {@link https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors CSS selector}.
+     * @param selectors
+     * @typeParam T Component element type
+     */
+    public closest<T extends HTMLElement = HTMLElement>(selectors: string): Component<T> | null {
+        const element = this.node.closest<T>(selectors);
+        if (element == null) return null;
+        return new Component<T>(element);
+    }
+
+    /**
      * Set style property
      * @param name Property name
      * @param value Property value
@@ -111,6 +123,10 @@ export class Component<T extends HTMLElement = HTMLElement> extends ElementCompo
                 this.css(name, value);
         }
         return this;
+    }
+
+    public override clone(deep = true) {
+        return new Component<T>(this.node.cloneNode(deep) as T);
     }
 
     public override on<K extends keyof HTMLElementEventMap>(type: K, listener: (ev: HTMLElementEventMap[K], component: this) => any): typeof this;

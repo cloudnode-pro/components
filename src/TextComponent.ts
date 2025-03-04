@@ -38,6 +38,13 @@ export class TextComponent extends NodeComponent<Text> {
 	}
 
 	/**
+	 * Clone this text component.
+	 */
+	public override clone() {
+		return new TextComponent(this.node.cloneNode() as Text);
+	}
+
+	/**
 	 * Get the text content
 	 */
 	public override toString() {
