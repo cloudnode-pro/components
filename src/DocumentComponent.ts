@@ -44,4 +44,11 @@ export class DocumentComponent extends NodeComponent<DocumentFragment> {
             component.slot(idPrefix + index, doc.node);
         return doc;
     }
+
+    public override clone(deep = true) {
+        const doc = new DocumentComponent();
+        const node = this.node.cloneNode(deep);
+        doc.node.append(node);
+        return doc;
+    }
 }
