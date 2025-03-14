@@ -90,6 +90,15 @@ export class Component<T extends HTMLElement = HTMLElement> extends ElementCompo
     }
 
     /**
+     * Test whether the element would be selected by the specified
+     * {@link https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors CSS selector}, or group of CSS selectors.
+     * @param selectors
+     */
+    public is(selectors: string): boolean {
+        return this.node.matches(selectors);
+    }
+
+    /**
      * Set style property
      * @param name Property name
      * @param value Property value
