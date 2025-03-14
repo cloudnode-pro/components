@@ -94,7 +94,7 @@ export class Component<T extends HTMLElement = HTMLElement> extends ElementCompo
      * {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus Focus}
      * @param options
      */
-    public focus(options?: FocusOptions): this {
+    public focus(options?: FocusOptions): typeof this {
         this.node.focus(options);
         return this;
     }
