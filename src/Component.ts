@@ -60,8 +60,8 @@ export class Component<T extends HTMLElement = HTMLElement> extends ElementCompo
      * @param selectors
      * @typeParam T Component element type
      */
-    public select<T extends HTMLElement = HTMLElement>(selectors: string): Component<T> | null {
-        const element = this.node.querySelector<T>(selectors);
+    public select<T extends HTMLElement = HTMLElement>(...selectors: string[]): Component<T> | null {
+        const element = this.node.querySelector<T>(selectors.join(","));
         if (element == null) return null;
         return new Component<T>(element);
     }
@@ -73,8 +73,8 @@ export class Component<T extends HTMLElement = HTMLElement> extends ElementCompo
      * @param selectors
      * @typeParam T Component element type
      */
-    public selectAll<T extends HTMLElement = HTMLElement>(selectors: string): Component<T>[] {
-        return [...this.node.querySelectorAll<T>(selectors)].map(e => new Component<T>(e));
+    public selectAll<T extends HTMLElement = HTMLElement>(...selectors: string[]): Component<T>[] {
+        return [...this.node.querySelectorAll<T>(selectors.join(","))].map(e => new Component<T>(e));
     }
 
     /**
@@ -83,8 +83,8 @@ export class Component<T extends HTMLElement = HTMLElement> extends ElementCompo
      * @param selectors
      * @typeParam T Component element type
      */
-    public closest<T extends HTMLElement = HTMLElement>(selectors: string): Component<T> | null {
-        const element = this.node.closest<T>(selectors);
+    public closest<T extends HTMLElement = HTMLElement>(...selectors: string[]): Component<T> | null {
+        const element = this.node.closest<T>(selectors.join(","));
         if (element == null) return null;
         return new Component<T>(element);
     }
@@ -94,8 +94,8 @@ export class Component<T extends HTMLElement = HTMLElement> extends ElementCompo
      * {@link https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors CSS selector}, or group of CSS selectors.
      * @param selectors
      */
-    public is(selectors: string): boolean {
-        return this.node.matches(selectors);
+    public is(...selectors: string[]): boolean {
+        return this.node.matches(selectors.join(","));
     }
 
     /**
