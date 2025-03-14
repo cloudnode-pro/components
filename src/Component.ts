@@ -90,6 +90,15 @@ export class Component<T extends HTMLElement = HTMLElement> extends ElementCompo
     }
 
     /**
+     * Test whether the element would be selected by the specified
+     * {@link https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors CSS selector}, or group of CSS selectors.
+     * @param selectors
+     */
+    public is(selectors: string): boolean {
+        return this.node.matches(selectors);
+    }
+
+    /**
      * Puts the element into
      * {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus Focus}
      * @param options - An optional object for controlling aspects of the focusing process.
