@@ -33,7 +33,7 @@ class ButtonComponent extends Component<HTMLButtonElement> {
 
 ## Licence
 
-Copyright © 2024 Cloudnode OÜ
+Copyright © 2024–2025 Cloudnode OÜ.
 
 This file is part of @cldn/components.
 
