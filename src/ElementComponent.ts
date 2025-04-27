@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License along with @cldn/components.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import {NodeComponent} from "./NodeComponent.js";
+import {DocumentComponent, NodeComponent} from "./index.js";
 
 /**
  * Non-readonly non-method keys
@@ -57,6 +57,25 @@ export abstract class ElementComponent<T extends Element> extends NodeComponent<
         components.forEach((component) => this.node.prepend(component.node))
         return this;
     }
+
+    /**
+     * Insert components in the children list of this `ElementComponent`’s parent, just before this `ElementComponent`.
+     * @param components Components to insert
+     */
+    public before(...components: NodeComponent<any>[]) {
+        this.node.before(...components.map(c => c.node));
+        return this;
+    }
+
+    /**
+     * Insert components in the children list of this `ElementComponent`’s parent, just after this `ElementComponent`.
+     * @param components Components to insert
+     */
+    public after(...components: NodeComponent<any>[]) {
+        this.node.after(...components.map(c => c.node));
+        return this;
+    }
+
 
     /**
      * Add classes
@@ -127,11 +146,21 @@ export abstract class ElementComponent<T extends Element> extends NodeComponent<
     }
 
     /**
-     * Set inner HTML
+     * Append HTML.
+     *
+     * Any components (provided as `${...}` inside the HTML string literal)
+     * remain fully functional and are appended (not just as HTML).
+     * @example
+     * component.html`<div>${new Component("button")
+     *      .text("Click me")
+     *      .on("click", () => console.log("clicked"))
+     * }</div>`
+     * // Event listeners etc. are preserved.
+     * // Note the lack of parentheses.
+     * @see {@link https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals Template literals (Template strings) - MDN}
      */
-    public html(html: string) {
-        this.node.innerHTML = html;
-        return this;
+    public html(strings: TemplateStringsArray, ...components: (any | NodeComponent<any>)[]): this {
+        return this.append(DocumentComponent.tag(strings, ...components));
     }
 
     /**
@@ -153,6 +182,23 @@ export abstract class ElementComponent<T extends Element> extends NodeComponent<
     }
 
     /**
+     * Check whether the component is visible.
+     * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Element/checkVisibility Element: checkVisibility() - MDN}
+     */
+    public isVisible() {
+        return this.node.checkVisibility();
+    }
+
+    /**
+     * Get a {@link !DOMRect} object providing information about the size of a component and its position relative to
+     * the {@link https://developer.mozilla.org/en-US/docs/Glossary/Viewport viewport}.
+     * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Element/getBoundingClientRect Element: getBoundingClientRect() - MDN}
+     */
+    public boundingClientRect() {
+        return this.node.getBoundingClientRect();
+    }
+
+    /**
      * Remove the element
      */
     public remove(): this {
@@ -165,6 +211,11 @@ export abstract class ElementComponent<T extends Element> extends NodeComponent<
     public override on<K extends keyof ElementEventMap>(type: K, listener: (ev: ElementEventMap[K], component: this) => any, useCapture: boolean): typeof this;
     public override on<K extends keyof ElementEventMap>(type: K, listener: (ev: ElementEventMap[K], component: this) => any, c?: boolean | AddEventListenerOptions): typeof this {
         return super.on(type as any, listener, c as any);
+    }
+
+    public override empty() {
+        this.node.replaceChildren();
+        return this;
     }
 
     /**

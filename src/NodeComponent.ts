@@ -34,6 +34,15 @@ export abstract class NodeComponent<T extends Node> {
 	}
 
 	/**
+	 * Run a function in the context of this component
+	 * @param fn Provides this component as the first argument and `this`.
+	 */
+	public context(fn: (this: this, component: this) => any): this {
+		fn.call(this, this);
+		return this;
+	}
+
+	/**
 	 * Insert component after the last child
 	 */
 	public append(...components: NodeComponent<any>[]) {
@@ -48,6 +57,14 @@ export abstract class NodeComponent<T extends Node> {
 		this.node.textContent = text;
 		return this;
 	}
+
+	/**
+	 * Clone this component. Event listeners are not cloned.
+	 * @see {@link https://developer.mozilla.org/en-US/docs/Web/API/Node/cloneNode Node: cloneNode() - MDN}
+	 * @param [deep] Whether to clone the whole subtree.
+	 * @returns A duplicate of this component.
+	 */
+	public abstract clone(deep?: boolean): NodeComponent<T>;
 
 	/**
 	 * Add event listener
@@ -84,6 +101,15 @@ export abstract class NodeComponent<T extends Node> {
 		const slotNode = parent.querySelector(`slot[name="${slot}"]`);
 		if (slotNode === null) throw new DOMException(`Could not find slot "${slot}"`);
 		slotNode.replaceWith(this.node);
+		return this;
+	}
+
+	/**
+	 * Empty the component (remove children)
+	 */
+	public empty() {
+		while (this.node.firstChild)
+			this.node.removeChild(this.node.firstChild);
 		return this;
 	}
 }

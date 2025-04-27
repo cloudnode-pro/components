@@ -60,8 +60,8 @@ export class Component<T extends HTMLElement = HTMLElement> extends ElementCompo
      * @param selectors
      * @typeParam T Component element type
      */
-    public select<T extends HTMLElement = HTMLElement>(selectors: string): Component<T> | null {
-        const element = this.node.querySelector<T>(selectors);
+    public select<T extends HTMLElement = HTMLElement>(...selectors: string[]): Component<T> | null {
+        const element = this.node.querySelector<T>(selectors.join(","));
         if (element == null) return null;
         return new Component<T>(element);
     }
@@ -73,8 +73,39 @@ export class Component<T extends HTMLElement = HTMLElement> extends ElementCompo
      * @param selectors
      * @typeParam T Component element type
      */
-    public selectAll<T extends HTMLElement = HTMLElement>(selectors: string): Component<T>[] {
-        return [...this.node.querySelectorAll<T>(selectors)].map(e => new Component<T>(e));
+    public selectAll<T extends HTMLElement = HTMLElement>(...selectors: string[]): Component<T>[] {
+        return [...this.node.querySelectorAll<T>(selectors.join(","))].map(e => new Component<T>(e));
+    }
+
+    /**
+     * Traverse the component and its parents (heading toward the document root) until it finds a component that matches
+     * the specified {@link https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors CSS selector}.
+     * @param selectors
+     * @typeParam T Component element type
+     */
+    public closest<T extends HTMLElement = HTMLElement>(...selectors: string[]): Component<T> | null {
+        const element = this.node.closest<T>(selectors.join(","));
+        if (element == null) return null;
+        return new Component<T>(element);
+    }
+
+    /**
+     * Test whether the element would be selected by the specified
+     * {@link https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_selectors CSS selector}, or group of CSS selectors.
+     * @param selectors
+     */
+    public is(...selectors: string[]): boolean {
+        return this.node.matches(selectors.join(","));
+    }
+
+    /**
+     * Puts the element into
+     * {@link https://developer.mozilla.org/en-US/docs/Web/API/HTMLElement/focus focus}.
+     * @param options - An optional object for controlling aspects of the focusing process.
+     */
+    public focus(options?: FocusOptions): typeof this {
+        this.node.focus(options);
+        return this;
     }
 
     /**
@@ -111,6 +142,10 @@ export class Component<T extends HTMLElement = HTMLElement> extends ElementCompo
                 this.css(name, value);
         }
         return this;
+    }
+
+    public override clone(deep = true) {
+        return new Component<T>(this.node.cloneNode(deep) as T);
     }
 
     public override on<K extends keyof HTMLElementEventMap>(type: K, listener: (ev: HTMLElementEventMap[K], component: this) => any): typeof this;

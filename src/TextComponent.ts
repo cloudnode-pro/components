@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU Lesser General Public License along with @cldn/components.
  * If not, see <https://www.gnu.org/licenses/>.
  */
-import {NodeComponent} from "./NodeComponent.js";
+import {NodeComponent} from "./index.js";
 
 /**
  * A text node component
@@ -35,6 +35,13 @@ export class TextComponent extends NodeComponent<Text> {
 	 */
 	public override append(): never {
 		throw new DOMException(`NodeComponent.append: Cannot add children to a ${this.constructor.name}`);
+	}
+
+	/**
+	 * Clone this text component.
+	 */
+	public override clone() {
+		return new TextComponent(this.node.cloneNode() as Text);
 	}
 
 	/**
