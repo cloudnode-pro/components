@@ -16,11 +16,11 @@
  */
 import {ElementComponent} from "./index.js";
 
-type ElementToTagName<T extends HTMLElement> = {
+export type ElementToTagName<T extends HTMLElement> = {
     [K in keyof HTMLElementTagNameMap]: HTMLElementTagNameMap[K] extends T ? K : never
 }[keyof HTMLElementTagNameMap];
 
-type HtmlTagString<T extends HTMLElement> =
+export type HtmlTagString<T extends HTMLElement> =
     `<${{ [K in keyof HTMLElementTagNameMap]: HTMLElementTagNameMap[K] extends T ? K : never }[keyof HTMLElementTagNameMap]}>${string}`
     | `<${{ [K in keyof HTMLElementTagNameMap]: HTMLElementTagNameMap[K] extends T ? K : never }[keyof HTMLElementTagNameMap]} ${string}`;
 

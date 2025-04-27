@@ -19,7 +19,7 @@ import {DocumentComponent, NodeComponent} from "./index.js";
 /**
  * Non-readonly non-method keys
  */
-type WritableKeys<T> = {
+export type WritableKeys<T> = {
     [Prop in keyof T]: (
         (<G>() => G extends Pick<T, Prop> ? 1 : 2) extends (
             <G>() => G extends Record<Prop, T[Prop]> ? 1 : 2
@@ -32,7 +32,7 @@ type WritableKeys<T> = {
 /**
  * Non-method keys
  */
-type ReadableKeys<T> = {
+export type ReadableKeys<T> = {
     [Prop in keyof T]: T[Prop] extends Function | null | undefined ? never : Prop;
 }[keyof T];
 
@@ -106,7 +106,7 @@ export abstract class ElementComponent<T extends Element> extends NodeComponent<
      * Replace classes
      *
      * @param oldClasses If all of these classes are present, they will be removed.
-     * @param newClasses The classes to add if all {@link oldClasses} are present
+     * @param newClasses The classes to add if all `oldClasses` are present
      */
     public replaceClass(oldClasses: string | string[], newClasses: string | string[]) {
         const remove = (typeof oldClasses === "string" ? [oldClasses] : oldClasses).flatMap(c => c.split(" "));
