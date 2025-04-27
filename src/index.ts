@@ -17,6 +17,6 @@
 export {NodeComponent} from "./NodeComponent.js";
 export {DocumentComponent} from "./DocumentComponent.js";
 export {TextComponent} from "./TextComponent.js";
-export {ElementComponent} from "./ElementComponent.js";
-export {Component} from "./Component.js";
+export {ElementComponent, ReadableKeys, WritableKeys} from "./ElementComponent.js";
+export {Component, ElementToTagName, HtmlTagString} from "./Component.js";
 export {SvgComponent} from "./SvgComponent.js";

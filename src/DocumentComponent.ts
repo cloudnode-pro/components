@@ -28,7 +28,7 @@ export class DocumentComponent extends NodeComponent<DocumentFragment> {
      * Template literal tag function that accepts HTML code with components in a
      * string literal
      *
-     * @warning This method should only be used with trusted inputs
+     * @remarks This method should only be used with trusted inputs
      * to avoid XSS vulnerabilities.
      */
     public static tag(strings: TemplateStringsArray, ...components: (any | NodeComponent<any>)[]): DocumentComponent {
