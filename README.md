@@ -1,5 +1,12 @@
 # @cldn/components
 
+[![Documentation](https://img.shields.io/badge/Documentation-blue)](https://components.cldn.pro/)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github)](https://github.com/cloudnode-pro/components)
+[![NPM](https://img.shields.io/npm/v/@cldn/components.svg)](https://www.npmjs.com/package/@cldn/components)
+[![Downloads](https://img.shields.io/npm/d18m/@cldn/components.svg)](https://www.npmjs.com/package/@cldn/components)
+[![Licence](https://img.shields.io/github/license/cloudnode-pro/components)](https://github.com/cloudnode-pro/components/blob/main/LICENSE)
+[![CI](https://github.com/cloudnode-pro/components/actions/workflows/ci.yml/badge.svg)](https://github.com/cloudnode-pro/components/actions/workflows/ci.yml)
+
 Base classes for creating web components.
 
 This library is intended for use in a web browser environment. A bundler, such as [Webpack](https://webpack.js.org/)
